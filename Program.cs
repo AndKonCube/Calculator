@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyApp
 {
@@ -10,10 +12,12 @@ namespace MyApp
             {
                 Console.WriteLine("> ");
                 string? input = Console.ReadLine();
+                Tokenize(input);
                 if(input == null || input.Trim() == "quit")break;
                 Console.WriteLine($"you typed: {input}");
-                var parts = input.Split(' ',StringSplitOptions.RemoveEmptyEntries);
-                if(parts.Length != 3 || !double.TryParse(parts[0],out double a) 
+                //if()
+                /*var parts = input.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+                //if(parts.Length != 3 || !double.TryParse(parts[0],out double a) 
                                      || !double.TryParse(parts[2], out double b))
                 {
                     System.Console.WriteLine("Format: nu number op number");continue;
@@ -26,9 +30,21 @@ namespace MyApp
                     "/" => b == 0 ? throw new DivideByZeroException() : a / b,
                     _ => throw new ArgumentException($"Uknown operator : {parts[1]}")
                 };
-                System.Console.WriteLine(result);
+                System.Console.WriteLine(result);*/
             }
+        }
 
+       static List<string> Tokenize(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return new List<string>();
+            }
+            foreach(char token in s)
+            {
+                System.Console.WriteLine(token);
+            }
+            return s.Split(' ').ToList();
         }
     }
 }
