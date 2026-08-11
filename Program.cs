@@ -13,7 +13,7 @@ namespace MyApp
                 Console.WriteLine("> ");
                 string? input = Console.ReadLine();
                 Tokenize(input);
-                if(input == null || input.Trim() == "quit")break;
+                if (input == null || input.Trim() == "quit") break;
                 Console.WriteLine($"you typed: {input}");
                 //if()
                 /*var parts = input.Split(' ',StringSplitOptions.RemoveEmptyEntries);
@@ -34,13 +34,13 @@ namespace MyApp
             }
         }
 
-       static List<string> Tokenize(string s)
+        public static List<string> Tokenize(string s)
         {
             if (string.IsNullOrEmpty(s))
             {
                 return new List<string>();
             }
-            foreach(char token in s)
+            foreach (char token in s)
             {
                 System.Console.WriteLine(token);
             }
