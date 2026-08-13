@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MyApp
 {
@@ -10,41 +9,60 @@ namespace MyApp
         {
             while (true)
             {
-                Console.WriteLine("> ");
+                Console.Write("> ");
                 string? input = Console.ReadLine();
-                Tokenize(input);
                 if (input == null || input.Trim() == "quit") break;
-                Console.WriteLine($"you typed: {input}");
-                //if()
-                /*var parts = input.Split(' ',StringSplitOptions.RemoveEmptyEntries);
-                //if(parts.Length != 3 || !double.TryParse(parts[0],out double a) 
-                                     || !double.TryParse(parts[2], out double b))
+                if (input.Trim().Length == 0) continue;
+
+                try
                 {
-                    System.Console.WriteLine("Format: nu number op number");continue;
+                    double result = new Evaluator().Evaluate(input);
+                    Console.WriteLine(result);
                 }
-                double result = parts[1] switch
+                catch (FormatException ex)
                 {
-                    "+" => a + b,
-                    "-" => a - b,
-                    "*" => a * b,
-                    "/" => b == 0 ? throw new DivideByZeroException() : a / b,
-                    _ => throw new ArgumentException($"Uknown operator : {parts[1]}")
-                };
-                System.Console.WriteLine(result);*/
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
         }
 
         public static List<string> Tokenize(string s)
         {
+            var tokens = new List<string>();
             if (string.IsNullOrEmpty(s))
             {
-                return new List<string>();
+                return tokens;
             }
-            foreach (char token in s)
+
+            int i = 0;
+            while (i < s.Length)
             {
-                System.Console.WriteLine(token);
+                char c = s[i];
+
+                if (char.IsWhiteSpace(c))
+                {
+                    i++;
+                }
+                else if (char.IsDigit(c) || c == '.')
+                {
+                    int start = i;
+                    while (i < s.Length && (char.IsDigit(s[i]) || s[i] == '.'))
+                    {
+                        i++;
+                    }
+                    tokens.Add(s.Substring(start, i - start));
+                }
+                else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')')
+                {
+                    tokens.Add(c.ToString());
+                    i++;
+                }
+                else
+                {
+                    throw new FormatException($"Unexpected character: {c}");
+                }
             }
-            return s.Split(' ').ToList();
+            return tokens;
         }
     }
 }
