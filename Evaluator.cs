@@ -33,11 +33,16 @@ namespace MyApp
         private double ParseTerm()
         {
             double value = ParseFactor();
-            while (pos < _tokens.Count && (_tokens[pos] == "*" || _tokens[pos] == "/"))
+            while (pos < _tokens.Count && (_tokens[pos] == "*" || _tokens[pos] == "/"|| _tokens[pos] == "%"))
             {
                 string op = _tokens[pos++];
                 double right = ParseFactor();
-                value = op == "*" ? value * right : value / right;
+                value = op switch
+                {
+                    "*" => value * right,
+                    "/" => value / right,
+                    _ => value % right,
+                };
             }
             return value;
         }

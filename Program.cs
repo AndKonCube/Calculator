@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MyApp
@@ -52,7 +52,7 @@ namespace MyApp
                     }
                     tokens.Add(s.Substring(start, i - start));
                 }
-                else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')')
+                else if (c == '+' || c == '-' || c == '*' || c == '/'|| c == '%' || c == '(' || c == ')')
                 {
                     tokens.Add(c.ToString());
                     i++;

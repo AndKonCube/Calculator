@@ -5,6 +5,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>Disable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- This project sits at the repo root, so its default **/*.cs glob would
+         otherwise sweep in the test project's sources and generated obj files. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);Calculator.Tests\**</DefaultItemExcludes>
   </PropertyGroup>
 
 </Project>
