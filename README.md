@@ -61,7 +61,7 @@ The evaluator is a two-stage pipeline:
 
    ```
    Expression := Term   (('+' | '-') Term)*
-   Term       := Factor (('*' | '/') Factor)*
+   Term       := Factor (('*' | '/' |'%') Factor)*
    Factor     := Number | '(' Expression ')'
    ```
 
