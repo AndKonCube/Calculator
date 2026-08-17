@@ -21,7 +21,7 @@ namespace MyApp
         private double ParseExpression()
         {
             double value = ParseTerm();
-            while (pos < _tokens.Count && (_tokens[pos] == "+" || _tokens[pos] == "-"))
+            while (pos < _tokens.Count && (_tokens[pos] == "+" || _tokens[pos] == "-"|| _tokens[pos] == "--"))
             {
                 string op = _tokens[pos++];
                 double right = ParseTerm();
@@ -32,11 +32,11 @@ namespace MyApp
 
         private double ParseTerm()
         {
-            double value = ParseFactor();
+            double value = ParseUnary();
             while (pos < _tokens.Count && (_tokens[pos] == "*" || _tokens[pos] == "/"|| _tokens[pos] == "%"))
             {
                 string op = _tokens[pos++];
-                double right = ParseFactor();
+                double right = ParseUnary();
                 value = op switch
                 {
                     "*" => value * right,
@@ -67,6 +67,16 @@ namespace MyApp
                 return number;
 
             throw new FormatException($"Unexpected token: {token}");
+        }
+        private double ParseUnary()
+        {
+            if (pos<_tokens.Count && (_tokens[pos] == "-" || _tokens[pos] == "+"))
+            {
+                string op = _tokens[pos++];
+                double value = ParseUnary();
+                return op == "-" ? -value : value; 
+            }
+            return ParseFactor();
         }
     }
 }
