@@ -109,7 +109,6 @@ dotnet add Calculator.Tests/Calculator.Tests.csproj reference Calculator.csproj
   Moving the console app into its own `src/` folder alongside a solution file would solve it more
   cleanly.
 - No exponentiation, functions, or constants
-- Division by zero follows IEEE 754 double semantics and prints `∞` / `NaN` rather than erroring
 - Malformed numbers such as `1.2.3` are collected as a single token and then rejected by the parser
 - Results are printed with the current culture's number formatting
 - `Tokenize` lives on `Program`, so the evaluator depends on the entry-point class rather than the

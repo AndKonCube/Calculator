@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 
 namespace MyApp
 {
     public class Evaluator
     {
-        private  List<string> _tokens = new();
+        private List<string> _tokens = new();
         private int pos;
 
         public double Evaluate(string input)
@@ -21,7 +22,7 @@ namespace MyApp
         private double ParseExpression()
         {
             double value = ParseTerm();
-            while (pos < _tokens.Count && (_tokens[pos] == "+" || _tokens[pos] == "-"|| _tokens[pos] == "--"))
+            while (pos < _tokens.Count && (_tokens[pos] == "+" || _tokens[pos] == "-" || _tokens[pos] == "--"))
             {
                 string op = _tokens[pos++];
                 double right = ParseTerm();
@@ -33,15 +34,17 @@ namespace MyApp
         private double ParseTerm()
         {
             double value = ParseUnary();
-            while (pos < _tokens.Count && (_tokens[pos] == "*" || _tokens[pos] == "/"|| _tokens[pos] == "%"))
+            while (pos < _tokens.Count && (_tokens[pos] == "*" || _tokens[pos] == "/" || _tokens[pos] == "%"))
             {
                 string op = _tokens[pos++];
                 double right = ParseUnary();
+
+                if (right == 0 && (op == "/" || op == "%")) throw new DivideByZeroException();
                 value = op switch
                 {
                     "*" => value * right,
                     "/" => value / right,
-                    _ => value % right,
+                    "%" => value % right,
                 };
             }
             return value;
@@ -52,14 +55,14 @@ namespace MyApp
             if (pos >= _tokens.Count)
                 throw new FormatException("Unexpected end of expression");
 
-            string token = _tokens[pos++];        // advance FIRST
+            string token = _tokens[pos++];
 
             if (token == "(")
             {
-                double value = ParseExpression();  // whatever is inside is a full expression
+                double value = ParseExpression();
                 if (pos >= _tokens.Count || _tokens[pos] != ")")
                     throw new FormatException("Missing closing parenthesis");
-                pos++;                            // consume the ")"
+                pos++;
                 return value;
             }
 
@@ -70,13 +73,19 @@ namespace MyApp
         }
         private double ParseUnary()
         {
-            if (pos<_tokens.Count && (_tokens[pos] == "-" || _tokens[pos] == "+"))
+            if (pos < _tokens.Count && (_tokens[pos] == "-" || _tokens[pos] == "+"))
             {
                 string op = _tokens[pos++];
                 double value = ParseUnary();
-                return op == "-" ? -value : value; 
+                return op == "-" ? -value : value;
             }
             return ParseFactor();
         }
+
+        private double ParseExponant()
+        {
+            return ParseExponant();
+        }
     }
 }
+

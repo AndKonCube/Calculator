@@ -23,6 +23,10 @@ namespace MyApp
                 {
                     Console.WriteLine($"Error: {ex.Message}");
                 }
+                catch (DivideByZeroException dvex)
+                {
+                    Console.WriteLine($"Error: {dvex.Message}");
+                }
             }
         }
 
